@@ -56,11 +56,13 @@ function showYear(){
 
     for(let i=1;i<=12;i++){
 
-        let btn=document.createElement("button");
+let btn=document.createElement("button");
 
-        btn.className="monthBtn";
+btn.className="monthBtn";
 
-        btn.innerText=i+"월";
+btn.classList.add("month"+i);
+
+btn.innerText=i+"월";
 
         btn.onclick=function(){
 
