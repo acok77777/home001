@@ -1,162 +1,477 @@
-// ===========================
-// 월별 공과금 관리
-// script.js (1부)
-// ===========================
+// =========================
+// 기본 변수
+// =========================
 
-let year = 2026;
-
-const home = document.getElementById("home");
-const page = document.getElementById("page");
-const yearText = document.getElementById("year");
-const title = document.getElementById("title");
-const tbody = document.getElementById("tbody");
-
+let currentYear = 2026;
 let currentMonth = 1;
 
-// 연도 변경
-document.getElementById("prevYear").onclick = function () {
-    year--;
-    yearText.innerText = year;
+let data = JSON.parse(localStorage.getItem("billData")) || {};
+
+
+// =========================
+// 화면 요소
+// =========================
+
+const homePage = document.getElementById("homePage");
+const monthPage = document.getElementById("monthPage");
+
+const yearText = document.getElementById("year");
+const monthList = document.getElementById("monthList");
+
+const monthTitle = document.getElementById("monthTitle");
+const tableBody = document.getElementById("tableBody");
+
+const totalMoney = document.getElementById("totalMoney");
+
+
+// 버튼
+const prevYear = document.getElementById("prevYear");
+const nextYear = document.getElementById("nextYear");
+
+const addBtn = document.getElementById("addBtn");
+const copyBtn = document.getElementById("copyBtn");
+
+const saveBtn = document.getElementById("saveBtn");
+const backBtn = document.getElementById("backBtn");
+
+
+
+// =========================
+// 시작
+// =========================
+
+showYear();
+
+
+
+// =========================
+// 년도 표시
+// =========================
+
+function showYear(){
+
+    yearText.innerText = currentYear;
+
+    monthList.innerHTML = "";
+
+    for(let i=1;i<=12;i++){
+
+        let btn=document.createElement("button");
+
+        btn.className="monthBtn";
+
+        btn.innerText=i+"월";
+
+        btn.onclick=function(){
+
+            openMonth(i);
+
+        };
+
+
+        monthList.appendChild(btn);
+
+    }
+
+}
+
+
+
+// =========================
+// 년도 이동
+// =========================
+
+prevYear.onclick=function(){
+
+    currentYear--;
+
+    showYear();
+
 };
 
-document.getElementById("nextYear").onclick = function () {
-    year++;
-    yearText.innerText = year;
+
+nextYear.onclick=function(){
+
+    currentYear++;
+
+    showYear();
+
 };
 
-// 월 버튼 클릭
-document.querySelectorAll(".month").forEach(function(btn){
 
-    btn.onclick = function(){
 
-        currentMonth = btn.dataset.month;
+// =========================
+// 월 화면 열기
+// =========================
 
-        openMonth();
+function openMonth(month){
 
-    };
+    currentMonth=month;
 
-});
+    homePage.style.display="none";
 
-// 월 열기
-function openMonth(){
+    monthPage.style.display="block";
 
-    home.style.display = "none";
 
-    page.style.display = "block";
+    monthTitle.innerText =
+    currentYear+"년 "+currentMonth+"월 공과금";
 
-    title.innerText = year + "년 " + currentMonth + "월";
 
     loadTable();
 
 }
 
+
+
+// =========================
+// 데이터 키
+// =========================
+
+function getKey(){
+
+    return currentYear+"-"+currentMonth;
+
+}
+
+
+
+// =========================
 // 표 불러오기
+// =========================
+
 function loadTable(){
 
-    tbody.innerHTML = "";
 
-    let key = year + "-" + currentMonth;
+    tableBody.innerHTML="";
 
-    let data = JSON.parse(localStorage.getItem(key));
 
-    if(data == null){
+    let key=getKey();
 
-        data = [];
 
-        for(let i=0;i<15;i++){
+    if(!data[key]){
 
-            data.push({
-
-                text:"",
-                check:false,
-                money:"",
-                memo:""
-
-            });
-
-        }
+        data[key]=[];
 
     }
 
-    data.forEach(function(row){
 
-        let tr = document.createElement("tr");
+    data[key].forEach((item,index)=>{
 
-        tr.innerHTML = `
 
-        <td>
+        createRow(item,index);
 
-        <input type="text" value="${row.text}">
-
-        </td>
-
-        <td style="text-align:center">
-
-        <input type="checkbox" ${row.check ? "checked":""}>
-
-        </td>
-
-        <td>
-
-        <input type="text" value="${row.money}">
-
-        </td>
-
-        <td>
-
-        <input type="text" value="${row.memo}">
-
-        </td>
-
-        `;
-
-        tbody.appendChild(tr);
 
     });
 
+
+    calculateTotal();
+
+
 }
-// ===========================
-// script.js (2부)
-// ===========================
 
-// 저장하기 버튼
-document.getElementById("save").onclick = function(){
 
-    let list = [];
 
-    let rows = tbody.querySelectorAll("tr");
+// =========================
+// 행 만들기
+// =========================
 
-    rows.forEach(function(tr){
+function createRow(item,index){
 
-        let input = tr.querySelectorAll("input");
 
-        list.push({
+    let tr=document.createElement("tr");
 
-            text: input[0].value,
-            check: input[1].checked,
-            money: input[2].value,
-            memo: input[3].value
+
+    tr.innerHTML=`
+
+    <td>
+    <input class="name"
+    value="${item.name || ""}">
+    </td>
+
+
+    <td>
+    <input type="checkbox"
+    ${item.check ? "checked":""}>
+    </td>
+
+
+    <td>
+    <input class="money"
+    type="number"
+    value="${item.money || ""}">
+    </td>
+
+
+    <td>
+    <input class="memo"
+    value="${item.memo || ""}">
+    </td>
+
+
+    <td>
+
+    <button class="deleteBtn">
+    삭제
+    </button>
+
+    </td>
+
+    `;
+
+
+
+    let inputs=tr.querySelectorAll("input");
+
+
+    inputs[0].oninput=saveCurrent;
+
+    inputs[1].onchange=saveCurrent;
+
+    inputs[2].oninput=function(){
+
+        saveCurrent();
+
+        calculateTotal();
+
+    };
+
+
+    inputs[3].oninput=saveCurrent;
+
+
+
+    tr.querySelector(".deleteBtn")
+    .onclick=function(){
+
+
+        data[getKey()].splice(index,1);
+
+        saveData();
+
+        loadTable();
+
+
+    };
+
+
+
+    tableBody.appendChild(tr);
+
+
+}
+
+
+
+// =========================
+// 행 추가
+// =========================
+
+addBtn.onclick=function(){
+
+
+    data[getKey()].push({
+
+        name:"",
+        check:false,
+        money:0,
+        memo:""
+
+    });
+
+
+    loadTable();
+
+
+};
+
+
+
+// =========================
+// 자동 저장
+// =========================
+
+function saveCurrent(){
+
+
+    let rows=
+    tableBody.querySelectorAll("tr");
+
+
+    let arr=[];
+
+
+    rows.forEach(row=>{
+
+
+        let input=
+        row.querySelectorAll("input");
+
+
+        arr.push({
+
+            name:input[0].value,
+
+            check:input[1].checked,
+
+            money:Number(input[2].value),
+
+            memo:input[3].value
 
         });
 
+
     });
 
-    let key = year + "-" + currentMonth;
 
-    localStorage.setItem(key, JSON.stringify(list));
+    data[getKey()]=arr;
+
+
+    saveData();
+
+
+}
+
+
+
+
+function saveData(){
+
+    localStorage.setItem(
+        "billData",
+        JSON.stringify(data)
+    );
+
+}
+
+
+
+// =========================
+// 합계 계산
+// =========================
+
+function calculateTotal(){
+
+
+    let total=0;
+
+
+    if(data[getKey()]){
+
+
+        data[getKey()].forEach(item=>{
+
+
+            total += Number(item.money)||0;
+
+
+        });
+
+
+    }
+
+
+
+    totalMoney.innerText =
+    total.toLocaleString()+"원";
+
+
+}
+
+
+
+// =========================
+// 지난달 불러오기
+// =========================
+
+copyBtn.onclick=function(){
+
+
+
+    let beforeYear=currentYear;
+
+    let beforeMonth=currentMonth-1;
+
+
+
+    if(beforeMonth===0){
+
+        beforeMonth=12;
+
+        beforeYear--;
+
+    }
+
+
+
+    let beforeKey=
+    beforeYear+"-"+beforeMonth;
+
+
+
+    if(!data[beforeKey] ||
+       data[beforeKey].length===0){
+
+
+        alert("지난달 데이터가 없습니다.");
+
+        return;
+
+    }
+
+
+
+    data[getKey()] =
+    JSON.parse(
+        JSON.stringify(data[beforeKey])
+    );
+
+
+    loadTable();
+
+
+
+    alert(
+        "지난달 내용을 불러왔습니다."
+    );
+
+
+};
+
+
+
+// =========================
+// 저장 버튼
+// =========================
+
+saveBtn.onclick=function(){
+
+
+    saveCurrent();
+
 
     alert("저장되었습니다.");
 
-};
-
-// 나가기 버튼
-document.getElementById("back").onclick = function(){
-
-    page.style.display = "none";
-
-    home.style.display = "block";
 
 };
 
-// 처음 실행
-yearText.innerText = year;
+
+
+// =========================
+// 뒤로가기
+// =========================
+
+backBtn.onclick=function(){
+
+
+    saveCurrent();
+
+
+    monthPage.style.display="none";
+
+    homePage.style.display="block";
+
+
+    showYear();
+
+
+};
