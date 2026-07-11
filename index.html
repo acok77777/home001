@@ -1,0 +1,90 @@
+```html
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>월별 공과금 관리</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<!-- ===== 메인 화면 ===== -->
+
+<div id="home">
+
+    <h1>월별 공과금 관리</h1>
+
+    <div class="yearBox">
+
+        <button id="prevYear">◀</button>
+
+        <span id="year">2026</span>
+
+        <button id="nextYear">▶</button>
+
+    </div>
+
+    <div id="monthList">
+
+        <button class="month" data-month="1">1월</button>
+        <button class="month" data-month="2">2월</button>
+        <button class="month" data-month="3">3월</button>
+        <button class="month" data-month="4">4월</button>
+        <button class="month" data-month="5">5월</button>
+        <button class="month" data-month="6">6월</button>
+        <button class="month" data-month="7">7월</button>
+        <button class="month" data-month="8">8월</button>
+        <button class="month" data-month="9">9월</button>
+        <button class="month" data-month="10">10월</button>
+        <button class="month" data-month="11">11월</button>
+        <button class="month" data-month="12">12월</button>
+
+    </div>
+
+</div>
+
+<!-- ===== 월별 화면 ===== -->
+
+<div id="page" style="display:none;">
+
+    <h2 id="title"></h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>내용</th>
+                <th>체크</th>
+                <th>금액</th>
+                <th>비고</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="tbody">
+
+        </tbody>
+
+    </table>
+
+    <br>
+
+    <button id="save">저장하기</button>
+
+    <button id="back">나가기</button>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
+```
