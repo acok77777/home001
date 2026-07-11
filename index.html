@@ -21,27 +21,30 @@
 <body>
 
 
-<!-- ========================= -->
-<!-- 메인 화면 -->
-<!-- ========================= -->
+<!-- =========================
+     메인 화면
+========================= -->
 
 <div id="homePage">
 
-    <h1>월별 공과금 관리</h1>
+
+<h1>월별 공과금 관리</h1>
 
 
-    <div class="yearBox">
 
-        <button id="prevYear">◀</button>
+<div class="yearBox">
 
-        <span id="year">2026</span>
+<button id="prevYear">◀</button>
 
-        <button id="nextYear">▶</button>
+<span id="year">2026</span>
 
-    </div>
+<button id="nextYear">▶</button>
+
+</div>
 
 
-    <div id="monthList"></div>
+
+<div id="monthList"></div>
 
 
 </div>
@@ -50,156 +53,256 @@
 
 
 
-<!-- ========================= -->
-<!-- 월별 화면 -->
-<!-- ========================= -->
+
+<!-- =========================
+     월별 화면
+========================= -->
+
 
 <div id="monthPage" style="display:none;">
 
 
-    <h2 id="monthTitle"></h2>
 
+<h2 id="monthTitle"></h2>
 
 
-    <!-- 검색 -->
-    <div class="searchBox">
 
-        🔍
 
-        <input 
-        id="searchInput"
-        type="text"
-        placeholder="내용 검색">
+<!-- 전체 검색 -->
 
-    </div>
+<div class="searchBox">
 
 
+🔍
 
+<input 
+id="searchInput"
+type="text"
+placeholder="내용 또는 카테고리 검색">
 
 
-    <div class="topButtons">
+</div>
 
 
-        <button id="copyBtn">
-            📋 지난달 불러오기
-        </button>
 
 
-        <button id="addBtn">
-            ➕ 행 추가
-        </button>
 
+<!-- 검색 결과 -->
 
-    </div>
+<div id="searchResult" style="display:none;">
 
 
+<h3>
+🔎 검색 결과
+</h3>
 
 
 
-    <table>
+<table class="resultTable">
 
 
-        <thead>
+<thead>
 
+<tr>
 
-        <tr>
+<th>
+날짜
+</th>
 
-            <th width="15%">
-                카테고리
-            </th>
+<th>
+카테고리
+</th>
 
+<th>
+내용
+</th>
 
-            <th width="25%">
-                내용
-            </th>
+<th>
+금액
+</th>
 
 
-            <th width="10%">
-                체크
-            </th>
+</tr>
 
 
-            <th width="20%">
-                금액
-            </th>
+</thead>
 
 
-            <th width="20%">
-                비고
-            </th>
 
+<tbody id="resultBody">
 
-            <th width="10%">
-                이동
-            </th>
 
+</tbody>
 
-            <th width="10%">
-                삭제
-            </th>
 
 
-        </tr>
+</table>
 
 
-        </thead>
 
+<div class="searchTotal">
 
+검색 합계 :
 
-        <tbody id="tableBody">
+<span id="searchTotalMoney">
+0원
+</span>
 
 
-        </tbody>
+</div>
 
 
-    </table>
+</div>
 
 
 
 
 
-    <div class="totalBox">
 
+<div class="topButtons">
 
-        총합 :
 
+<button id="copyBtn">
+📋 지난달 불러오기
+</button>
 
-        <span id="totalMoney">
 
-            0원
 
-        </span>
-
-
-    </div>
-
-
-
-
-
-    <div class="bottomButtons">
-
-
-        <button id="saveBtn">
-
-            💾 저장하기
-
-        </button>
-
-
-
-        <button id="backBtn">
-
-            ↩ 나가기
-
-        </button>
-
-
-    </div>
+<button id="addBtn">
+➕ 행 추가
+</button>
 
 
 
 </div>
+
+
+
+
+
+
+<table>
+
+
+<thead>
+
+
+<tr>
+
+
+<th width="15%">
+카테고리
+</th>
+
+
+
+<th width="25%">
+내용
+</th>
+
+
+
+<th width="10%">
+체크
+</th>
+
+
+
+<th width="20%">
+금액
+</th>
+
+
+
+<th width="20%">
+비고
+</th>
+
+
+
+<th width="10%">
+이동
+</th>
+
+
+
+<th width="10%">
+삭제
+</th>
+
+
+</tr>
+
+
+</thead>
+
+
+
+
+<tbody id="tableBody">
+
+
+</tbody>
+
+
+</table>
+
+
+
+
+
+
+
+<div class="totalBox">
+
+
+총합 :
+
+
+<span id="totalMoney">
+
+0원
+
+</span>
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="bottomButtons">
+
+
+<button id="saveBtn">
+
+💾 저장하기
+
+</button>
+
+
+
+<button id="backBtn">
+
+↩ 나가기
+
+</button>
+
+
+
+</div>
+
+
+
+
+</div>
+
+
+
 
 
 
@@ -209,13 +312,16 @@
 
 
 
+
 <script>
+
 
 if("serviceWorker" in navigator){
 
 navigator.serviceWorker.register("service-worker.js");
 
 }
+
 
 </script>
 
