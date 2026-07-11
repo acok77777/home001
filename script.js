@@ -1,5 +1,5 @@
 // =========================
-// 기본 변수
+// 기본 설정
 // =========================
 
 let currentYear = 2026;
@@ -23,8 +23,6 @@ const tableBody = document.getElementById("tableBody");
 
 const totalMoney = document.getElementById("totalMoney");
 
-
-// 버튼
 const prevYear = document.getElementById("prevYear");
 const nextYear = document.getElementById("nextYear");
 
@@ -33,7 +31,6 @@ const copyBtn = document.getElementById("copyBtn");
 
 const saveBtn = document.getElementById("saveBtn");
 const backBtn = document.getElementById("backBtn");
-
 
 
 // =========================
@@ -45,7 +42,7 @@ showYear();
 
 
 // =========================
-// 년도 표시
+// 첫 화면 월 표시
 // =========================
 
 function showYear(){
@@ -54,15 +51,19 @@ function showYear(){
 
     monthList.innerHTML = "";
 
-    for(let i=1;i<=12;i++){
 
-let btn=document.createElement("button");
+    for(let i=1; i<=12; i++){
 
-btn.className="monthBtn";
+        let btn = document.createElement("button");
 
-btn.classList.add("month"+i);
+        btn.className = "monthBtn";
 
-btn.innerText=i+"월";
+        // 월별 색상 적용
+        btn.classList.add("month"+i);
+
+
+        btn.innerText = i+"월";
+
 
         btn.onclick=function(){
 
@@ -108,7 +109,8 @@ nextYear.onclick=function(){
 
 function openMonth(month){
 
-    currentMonth=month;
+    currentMonth = month;
+
 
     homePage.style.display="none";
 
@@ -126,7 +128,7 @@ function openMonth(month){
 
 
 // =========================
-// 데이터 키
+// 저장 키
 // =========================
 
 function getKey(){
@@ -143,7 +145,6 @@ function getKey(){
 
 function loadTable(){
 
-
     tableBody.innerHTML="";
 
 
@@ -151,12 +152,16 @@ function loadTable(){
 
 
 
-    // 처음 만든 월이면 기본 10줄 생성
+    // 처음 들어가는 달이면 기본 10줄 생성
+
     if(!data[key]){
+
 
         data[key]=[];
 
+
         for(let i=0;i<10;i++){
+
 
             data[key].push({
 
@@ -167,7 +172,9 @@ function loadTable(){
 
             });
 
+
         }
+
 
         saveData();
 
@@ -187,12 +194,12 @@ function loadTable(){
 
     calculateTotal();
 
-
 }
 
 
+
 // =========================
-// 행 만들기
+// 행 생성
 // =========================
 
 function createRow(item,index){
@@ -204,8 +211,7 @@ function createRow(item,index){
     tr.innerHTML=`
 
     <td>
-    <input class="name"
-    value="${item.name || ""}">
+    <input class="name" value="${item.name}">
     </td>
 
 
@@ -218,34 +224,34 @@ function createRow(item,index){
     <td>
     <input class="money"
     type="number"
-    value="${item.money || ""}">
+    value="${item.money}">
     </td>
 
 
     <td>
     <input class="memo"
-    value="${item.memo || ""}">
+    value="${item.memo}">
     </td>
 
 
     <td>
-
     <button class="deleteBtn">
     삭제
     </button>
-
     </td>
 
     `;
 
 
 
-    let inputs=tr.querySelectorAll("input");
+    let inputs = tr.querySelectorAll("input");
 
 
-    inputs[0].oninput=saveCurrent;
 
-    inputs[1].onchange=saveCurrent;
+    inputs[0].oninput = saveCurrent;
+
+    inputs[1].onchange = saveCurrent;
+
 
     inputs[2].oninput=function(){
 
@@ -256,7 +262,7 @@ function createRow(item,index){
     };
 
 
-    inputs[3].oninput=saveCurrent;
+    inputs[3].oninput = saveCurrent;
 
 
 
@@ -266,7 +272,9 @@ function createRow(item,index){
 
         data[getKey()].splice(index,1);
 
+
         saveData();
+
 
         loadTable();
 
@@ -293,7 +301,7 @@ addBtn.onclick=function(){
 
         name:"",
         check:false,
-        money:0,
+        money:"",
         memo:""
 
     });
@@ -307,13 +315,13 @@ addBtn.onclick=function(){
 
 
 // =========================
-// 자동 저장
+// 현재 내용 저장
 // =========================
 
 function saveCurrent(){
 
 
-    let rows=
+    let rows =
     tableBody.querySelectorAll("tr");
 
 
@@ -323,7 +331,7 @@ function saveCurrent(){
     rows.forEach(row=>{
 
 
-        let input=
+        let input =
         row.querySelectorAll("input");
 
 
@@ -343,7 +351,8 @@ function saveCurrent(){
     });
 
 
-    data[getKey()]=arr;
+
+    data[getKey()] = arr;
 
 
     saveData();
@@ -366,7 +375,7 @@ function saveData(){
 
 
 // =========================
-// 합계 계산
+// 총합 계산
 // =========================
 
 function calculateTotal(){
@@ -381,7 +390,7 @@ function calculateTotal(){
         data[getKey()].forEach(item=>{
 
 
-            total += Number(item.money)||0;
+            total += Number(item.money) || 0;
 
 
         });
@@ -406,30 +415,26 @@ function calculateTotal(){
 copyBtn.onclick=function(){
 
 
+    let y=currentYear;
 
-    let beforeYear=currentYear;
-
-    let beforeMonth=currentMonth-1;
-
+    let m=currentMonth-1;
 
 
-    if(beforeMonth===0){
+    if(m===0){
 
-        beforeMonth=12;
+        m=12;
 
-        beforeYear--;
+        y--;
 
     }
 
 
 
-    let beforeKey=
-    beforeYear+"-"+beforeMonth;
+    let beforeKey=y+"-"+m;
 
 
 
-    if(!data[beforeKey] ||
-       data[beforeKey].length===0){
+    if(!data[beforeKey]){
 
 
         alert("지난달 데이터가 없습니다.");
@@ -449,11 +454,7 @@ copyBtn.onclick=function(){
     loadTable();
 
 
-
-    alert(
-        "지난달 내용을 불러왔습니다."
-    );
-
+    alert("지난달 내용을 불러왔습니다.");
 
 };
 
@@ -465,19 +466,16 @@ copyBtn.onclick=function(){
 
 saveBtn.onclick=function(){
 
-
     saveCurrent();
 
-
     alert("저장되었습니다.");
-
 
 };
 
 
 
 // =========================
-// 뒤로가기
+// 나가기
 // =========================
 
 backBtn.onclick=function(){
@@ -487,6 +485,7 @@ backBtn.onclick=function(){
 
 
     monthPage.style.display="none";
+
 
     homePage.style.display="block";
 
