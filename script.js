@@ -8,8 +8,9 @@ let currentMonth = 1;
 let data = JSON.parse(localStorage.getItem("billData")) || {};
 
 
+
 // =========================
-// 화면 요소
+// 요소
 // =========================
 
 const homePage = document.getElementById("homePage");
@@ -23,6 +24,12 @@ const tableBody = document.getElementById("tableBody");
 
 const totalMoney = document.getElementById("totalMoney");
 
+const searchInput = document.getElementById("searchInput");
+const searchResult = document.getElementById("searchResult");
+const resultBody = document.getElementById("resultBody");
+const searchTotalMoney = document.getElementById("searchTotalMoney");
+
+
 const prevYear = document.getElementById("prevYear");
 const nextYear = document.getElementById("nextYear");
 
@@ -32,24 +39,26 @@ const copyBtn = document.getElementById("copyBtn");
 const saveBtn = document.getElementById("saveBtn");
 const backBtn = document.getElementById("backBtn");
 
-const searchInput = document.getElementById("searchInput");
 
 
 
 // =========================
-// 카테고리 목록
+// 카테고리
 // =========================
 
-const categories = [
-    "🏠 공과금",
-    "📚 학원비",
-    "💳 대출금",
-    "🍚 식비",
-    "🚗 교통비",
-    "🏥 병원",
-    "🛒 생활비",
-    "기타"
+const categories=[
+
+"🏠 공과금",
+"📚 학원비",
+"💳 대출금",
+"🍚 식비",
+"🚗 교통비",
+"🏥 병원",
+"🛒 생활비",
+"기타"
+
 ];
+
 
 
 
@@ -68,34 +77,41 @@ showYear();
 
 function showYear(){
 
-    yearText.innerText = currentYear;
 
-    monthList.innerHTML = "";
+yearText.innerText=currentYear;
 
-
-    for(let i=1;i<=12;i++){
-
-        let btn=document.createElement("button");
-
-        btn.className="monthBtn";
-
-        btn.classList.add("month"+i);
-
-        btn.innerText=i+"월";
+monthList.innerHTML="";
 
 
-        btn.onclick=function(){
 
-            openMonth(i);
-
-        };
+for(let i=1;i<=12;i++){
 
 
-        monthList.appendChild(btn);
+let btn=document.createElement("button");
 
-    }
+btn.className="monthBtn";
+
+btn.classList.add("month"+i);
+
+
+btn.innerText=i+"월";
+
+
+btn.onclick=function(){
+
+openMonth(i);
+
+};
+
+
+monthList.appendChild(btn);
+
 
 }
+
+
+}
+
 
 
 
@@ -104,11 +120,12 @@ function showYear(){
 // 년도 이동
 // =========================
 
+
 prevYear.onclick=function(){
 
-    currentYear--;
+currentYear--;
 
-    showYear();
+showYear();
 
 };
 
@@ -116,11 +133,12 @@ prevYear.onclick=function(){
 
 nextYear.onclick=function(){
 
-    currentYear++;
+currentYear++;
 
-    showYear();
+showYear();
 
 };
+
 
 
 
@@ -129,21 +147,29 @@ nextYear.onclick=function(){
 // 월 열기
 // =========================
 
+
 function openMonth(month){
 
-    currentMonth=month;
+
+currentMonth=month;
 
 
-    homePage.style.display="none";
+homePage.style.display="none";
 
-    monthPage.style.display="block";
-
-
-    monthTitle.innerText =
-    currentYear+"년 "+currentMonth+"월 공과금";
+monthPage.style.display="block";
 
 
-    loadTable();
+monthTitle.innerText =
+currentYear+"년 "+currentMonth+"월 공과금";
+
+
+searchInput.value="";
+
+searchResult.style.display="none";
+
+
+loadTable();
+
 
 }
 
@@ -154,15 +180,12 @@ function openMonth(month){
 // 저장 키
 // =========================
 
+
 function getKey(){
 
-    return currentYear+"-"+currentMonth;
+return currentYear+"-"+currentMonth;
 
 }
-
-
-
-
 // =========================
 // 표 불러오기
 // =========================
@@ -188,13 +211,9 @@ function loadTable(){
             data[key].push({
 
                 category:"기타",
-
                 name:"",
-
                 check:false,
-
                 money:"",
-
                 memo:""
 
             });
@@ -226,28 +245,31 @@ function loadTable(){
 
 
 
+
 // =========================
-// 행 만들기
+// 행 생성
 // =========================
 
 function createRow(item,index){
 
 
-    let tr=document.createElement("tr");
+let tr=document.createElement("tr");
 
 
 
-    tr.innerHTML=`
+tr.innerHTML=`
 
 <td>
 
 <select class="category">
 
-${categories.map(c=>
+${categories.map(c=>`
 
-`<option ${item.category===c?"selected":""}>${c}</option>`
+<option ${item.category===c?"selected":""}>
+${c}
+</option>
 
-).join("")}
+`).join("")}
 
 </select>
 
@@ -266,8 +288,7 @@ ${categories.map(c=>
 <td>
 
 <input type="checkbox"
-
-${item.check?"checked":""}>
+${item.check ? "checked":""}>
 
 </td>
 
@@ -276,11 +297,8 @@ ${item.check?"checked":""}>
 <td>
 
 <input class="money"
-
 type="text"
-
 inputmode="numeric"
-
 value="${item.money ? Number(item.money).toLocaleString():""}">
 
 </td>
@@ -290,7 +308,6 @@ value="${item.money ? Number(item.money).toLocaleString():""}">
 <td>
 
 <input class="memo"
-
 value="${item.memo}">
 
 </td>
@@ -319,97 +336,130 @@ value="${item.memo}">
 
 </td>
 
-
 `;
 
 
 
-    let inputs=tr.querySelectorAll("input,select");
+
+let inputs=tr.querySelectorAll("input,select");
 
 
 
-    inputs[0].onchange=saveCurrent;
+// 카테고리
 
-    inputs[1].oninput=saveCurrent;
-
-    inputs[2].onchange=saveCurrent;
+inputs[0].onchange=saveCurrent;
 
 
+// 내용
 
-    inputs[3].oninput=function(){
-
-
-        let value=this.value.replace(/,/g,"");
+inputs[1].oninput=saveCurrent;
 
 
-        if(value){
+// 체크
 
-            this.value=Number(value).toLocaleString();
-
-        }
-
-
-        saveCurrent();
-
-        calculateTotal();
-
-    };
+inputs[2].onchange=saveCurrent;
 
 
 
-    inputs[4].oninput=saveCurrent;
+
+// 금액
+
+inputs[3].oninput=function(){
+
+
+let value=this.value.replace(/,/g,"");
+
+
+if(value){
+
+this.value=Number(value).toLocaleString();
+
+}
+
+
+saveCurrent();
+
+calculateTotal();
+
+
+};
 
 
 
-    tableBody.appendChild(tr);
+
+// 비고
+
+inputs[4].oninput=saveCurrent;
+
+
+
+tableBody.appendChild(tr);
+
 
 
 }
+
+
+
+
+
 // =========================
 // 현재 내용 저장
 // =========================
 
 function saveCurrent(){
 
-    let rows = tableBody.querySelectorAll("tr");
 
-    let arr=[];
-
-
-    rows.forEach(row=>{
-
-        let category =
-        row.querySelector(".category").value;
-
-        let inputs =
-        row.querySelectorAll("input");
+let rows=tableBody.querySelectorAll("tr");
 
 
-        arr.push({
-
-            category:category,
-
-            name:inputs[0].value,
-
-            check:inputs[1].checked,
-
-            money:Number(
-                inputs[2].value.replace(/,/g,"")
-            ),
-
-            memo:inputs[3].value
-
-        });
+let arr=[];
 
 
-    });
+
+rows.forEach(row=>{
 
 
-    data[getKey()] = arr;
+let select =
+row.querySelector(".category");
 
-    saveData();
+
+let inputs =
+row.querySelectorAll("input");
+
+
+
+arr.push({
+
+category:select.value,
+
+name:inputs[0].value,
+
+check:inputs[1].checked,
+
+money:Number(
+inputs[2].value.replace(/,/g,"")
+),
+
+memo:inputs[3].value
+
+
+});
+
+
+});
+
+
+
+data[getKey()]=arr;
+
+
+saveData();
+
+
 
 }
+
 
 
 
@@ -420,213 +470,189 @@ function saveCurrent(){
 
 function saveData(){
 
-    localStorage.setItem(
-        "billData",
-        JSON.stringify(data)
-    );
+
+localStorage.setItem(
+
+"billData",
+
+JSON.stringify(data)
+
+);
+
 
 }
 
 
 
 
+
 // =========================
-// 총합 계산
+// 총합
 // =========================
 
 function calculateTotal(){
 
-    let total=0;
+
+let total=0;
 
 
-    if(data[getKey()]){
+
+if(data[getKey()]){
 
 
-        data[getKey()].forEach(item=>{
+data[getKey()].forEach(item=>{
 
 
-            total += Number(item.money)||0;
+total += Number(item.money)||0;
 
 
-        });
+});
 
 
-    }
+}
 
 
-    totalMoney.innerText =
-    total.toLocaleString()+"원";
+
+totalMoney.innerText =
+total.toLocaleString()+"원";
+
 
 }
 
 
 
 
-// =========================
-// 행 삭제
-// =========================
-
-tableBody.addEventListener("click",function(e){
-
-
-    if(e.target.classList.contains("deleteBtn")){
-
-
-        let row =
-        e.target.closest("tr");
-
-
-        let index =
-        [...tableBody.children].indexOf(row);
-
-
-
-        data[getKey()].splice(index,1);
-
-
-        saveData();
-
-
-        loadTable();
-
-
-    }
-
-
-});
-
-
-
-
 
 // =========================
-// 행 위아래 이동
-// =========================
-
-tableBody.addEventListener("click",function(e){
-
-
-    let row =
-    e.target.closest("tr");
-
-
-    if(!row) return;
-
-
-
-    let index =
-    [...tableBody.children].indexOf(row);
-
-
-
-    if(e.target.classList.contains("upBtn")){
-
-
-        if(index>0){
-
-
-            let arr=data[getKey()];
-
-
-            [arr[index-1],arr[index]] =
-            [arr[index],arr[index-1]];
-
-
-            saveData();
-
-            loadTable();
-
-
-        }
-
-
-    }
-
-
-
-
-    if(e.target.classList.contains("downBtn")){
-
-
-        let arr=data[getKey()];
-
-
-        if(index<arr.length-1){
-
-
-            [arr[index+1],arr[index]] =
-            [arr[index],arr[index+1]];
-
-
-            saveData();
-
-            loadTable();
-
-
-        }
-
-
-    }
-
-
-
-});
-
-
-
-
-
-
-// =========================
-// 검색 기능
+// 전체 검색 기능
 // =========================
 
 searchInput.addEventListener("input",function(){
 
 
-    let keyword =
-    this.value.toLowerCase();
+let keyword =
+this.value.trim().toLowerCase();
 
 
 
-    let rows =
-    tableBody.querySelectorAll("tr");
+if(keyword===""){
+
+
+searchResult.style.display="none";
+
+
+loadTable();
+
+
+return;
+
+}
 
 
 
-    rows.forEach(row=>{
+resultBody.innerHTML="";
 
 
-        let text =
-        row.innerText.toLowerCase();
+let total=0;
 
 
 
-        if(text.includes(keyword)){
+Object.keys(data).forEach(key=>{
 
 
-            row.style.display="";
+let arr=data[key];
 
 
-        }else{
+
+arr.forEach(item=>{
 
 
-            row.style.display="none";
+let text=
+
+(item.category||"")+
+(item.name||"")+
+(item.memo||"");
 
 
-        }
+
+if(
+text.toLowerCase()
+.includes(keyword)
+){
 
 
-    });
+
+let money=
+Number(item.money)||0;
+
+
+total+=money;
+
+
+
+let parts=key.split("-");
+
+
+let year=parts[0];
+
+let month=parts[1];
+
+
+
+let tr=document.createElement("tr");
+
+
+
+tr.innerHTML=`
+
+<td>
+${year}년 ${month}월
+</td>
+
+
+<td>
+${item.category}
+</td>
+
+
+<td>
+${item.name}
+</td>
+
+
+<td>
+${money.toLocaleString()}원
+</td>
+
+`;
+
+
+
+resultBody.appendChild(tr);
+
+
+
+}
+
+
+
+});
 
 
 });
 
 
 
+searchTotalMoney.innerText =
+total.toLocaleString()+"원";
 
 
 
+searchResult.style.display="block";
+
+
+
+});
 // =========================
 // 행 추가
 // =========================
@@ -649,6 +675,46 @@ addBtn.onclick=function(){
     });
 
 
+    saveData();
+
+    loadTable();
+
+
+};
+
+
+
+
+
+
+// =========================
+// 삭제 / 이동 버튼
+// =========================
+
+tableBody.addEventListener("click",function(e){
+
+
+
+let row=e.target.closest("tr");
+
+
+if(!row) return;
+
+
+
+let index =
+[...tableBody.children].indexOf(row);
+
+
+
+
+// 삭제
+
+if(e.target.classList.contains("deleteBtn")){
+
+
+    data[getKey()].splice(index,1);
+
 
     saveData();
 
@@ -656,7 +722,76 @@ addBtn.onclick=function(){
     loadTable();
 
 
-};
+}
+
+
+
+
+
+// 위로 이동
+
+if(e.target.classList.contains("upBtn")){
+
+
+    if(index>0){
+
+
+        let arr=data[getKey()];
+
+
+        [arr[index-1],arr[index]]=
+        [arr[index],arr[index-1]];
+
+
+
+        saveData();
+
+
+        loadTable();
+
+
+    }
+
+
+}
+
+
+
+
+
+// 아래로 이동
+
+if(e.target.classList.contains("downBtn")){
+
+
+    let arr=data[getKey()];
+
+
+    if(index<arr.length-1){
+
+
+
+        [arr[index+1],arr[index]]=
+        [arr[index],arr[index+1]];
+
+
+
+        saveData();
+
+
+        loadTable();
+
+
+    }
+
+
+}
+
+
+
+});
+
+
 
 
 
@@ -669,59 +804,66 @@ addBtn.onclick=function(){
 copyBtn.onclick=function(){
 
 
-    let y=currentYear;
 
-    let m=currentMonth-1;
+let y=currentYear;
 
-
-
-    if(m===0){
-
-        m=12;
-
-        y--;
-
-    }
+let m=currentMonth-1;
 
 
 
-    let beforeKey =
-    y+"-"+m;
+if(m===0){
+
+    m=12;
+
+    y--;
+
+}
 
 
 
-    if(!data[beforeKey]){
-
-
-        alert("지난달 데이터가 없습니다.");
-
-        return;
-
-    }
+let beforeKey =
+y+"-"+m;
 
 
 
 
-    data[getKey()] =
-
-    JSON.parse(
-
-        JSON.stringify(data[beforeKey])
-
-    );
+if(!data[beforeKey]){
 
 
+alert("지난달 데이터가 없습니다.");
 
-    saveData();
+return;
 
 
-    loadTable();
+}
 
 
 
-    alert("지난달 내용을 불러왔습니다.");
+
+
+data[getKey()] =
+
+JSON.parse(
+
+JSON.stringify(data[beforeKey])
+
+);
+
+
+
+saveData();
+
+
+loadTable();
+
+
+
+alert("지난달 내용을 불러왔습니다.");
+
+
 
 };
+
 
 
 
@@ -734,12 +876,17 @@ copyBtn.onclick=function(){
 saveBtn.onclick=function(){
 
 
-    saveCurrent();
+saveCurrent();
 
 
-    alert("저장되었습니다.");
+alert("저장되었습니다.");
+
+
 
 };
+
+
+
 
 
 
@@ -752,16 +899,19 @@ saveBtn.onclick=function(){
 backBtn.onclick=function(){
 
 
-    saveCurrent();
+saveCurrent();
 
 
-    monthPage.style.display="none";
+
+monthPage.style.display="none";
 
 
-    homePage.style.display="block";
+homePage.style.display="block";
 
 
-    showYear();
+
+showYear();
+
 
 
 };
