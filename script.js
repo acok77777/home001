@@ -148,11 +148,29 @@ function loadTable(){
     let key=getKey();
 
 
+
+    // 처음 만든 월이면 기본 10줄 생성
     if(!data[key]){
 
         data[key]=[];
 
+        for(let i=0;i<10;i++){
+
+            data[key].push({
+
+                name:"",
+                check:false,
+                money:"",
+                memo:""
+
+            });
+
+        }
+
+        saveData();
+
     }
+
 
 
     data[key].forEach((item,index)=>{
@@ -164,11 +182,11 @@ function loadTable(){
     });
 
 
+
     calculateTotal();
 
 
 }
-
 
 
 // =========================
