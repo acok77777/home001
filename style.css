@@ -106,19 +106,32 @@ h2{
 
 .monthBtn{
 
-    padding:18px 5px;
+    padding:20px 5px;
 
     border:none;
 
-    border-radius:15px;
+    border-radius:20px;
 
-    background:white;
+    background:#e8f8f5;
 
-    box-shadow:0 3px 8px rgba(0,0,0,0.1);
+    box-shadow:0 5px 12px rgba(0,0,0,0.08);
 
-    font-size:17px;
+    font-size:18px;
+
+    font-weight:bold;
+
+    color:#555;
 
     cursor:pointer;
+
+}
+
+
+.monthBtn:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 8px 15px rgba(0,0,0,0.12);
 
 }
 
