@@ -17,7 +17,9 @@
 
 </head>
 
+
 <body>
+
 
 <!-- ========================= -->
 <!-- 메인 화면 -->
@@ -26,6 +28,7 @@
 <div id="homePage">
 
     <h1>월별 공과금 관리</h1>
+
 
     <div class="yearBox">
 
@@ -37,11 +40,15 @@
 
     </div>
 
-    <div id="monthList">
 
-    </div>
+    <div id="monthList"></div>
+
 
 </div>
+
+
+
+
 
 <!-- ========================= -->
 <!-- 월별 화면 -->
@@ -49,49 +56,113 @@
 
 <div id="monthPage" style="display:none;">
 
+
     <h2 id="monthTitle"></h2>
 
+
+
+    <!-- 검색 -->
+    <div class="searchBox">
+
+        🔍
+
+        <input 
+        id="searchInput"
+        type="text"
+        placeholder="내용 검색">
+
+    </div>
+
+
+
+
+
     <div class="topButtons">
+
 
         <button id="copyBtn">
             📋 지난달 불러오기
         </button>
 
+
         <button id="addBtn">
             ➕ 행 추가
         </button>
 
+
     </div>
+
+
+
+
 
     <table>
 
+
         <thead>
+
 
         <tr>
 
-            <th width="35%">내용</th>
+            <th width="15%">
+                카테고리
+            </th>
 
-            <th width="10%">체크</th>
 
-            <th width="20%">금액</th>
+            <th width="25%">
+                내용
+            </th>
 
-            <th width="25%">비고</th>
 
-            <th width="10%">삭제</th>
+            <th width="10%">
+                체크
+            </th>
+
+
+            <th width="20%">
+                금액
+            </th>
+
+
+            <th width="20%">
+                비고
+            </th>
+
+
+            <th width="10%">
+                이동
+            </th>
+
+
+            <th width="10%">
+                삭제
+            </th>
+
 
         </tr>
 
+
         </thead>
+
+
 
         <tbody id="tableBody">
 
+
         </tbody>
+
 
     </table>
 
+
+
+
+
     <div class="totalBox">
 
+
         총합 :
+
 
         <span id="totalMoney">
 
@@ -99,9 +170,15 @@
 
         </span>
 
+
     </div>
 
+
+
+
+
     <div class="bottomButtons">
+
 
         <button id="saveBtn">
 
@@ -109,17 +186,28 @@
 
         </button>
 
+
+
         <button id="backBtn">
 
             ↩ 나가기
 
         </button>
 
+
     </div>
+
+
 
 </div>
 
+
+
+
+
 <script src="script.js"></script>
+
+
 
 <script>
 
@@ -130,6 +218,8 @@ navigator.serviceWorker.register("service-worker.js");
 }
 
 </script>
+
+
 
 </body>
 
