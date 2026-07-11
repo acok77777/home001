@@ -347,6 +347,56 @@ td{
     padding:12px 5px;
 
 }
+/* =========================
+   월별 파스텔 색상
+========================= */
 
+.month1{
+    background:#fff1f2;
+}
+
+.month2{
+    background:#ffedd5;
+}
+
+.month3{
+    background:#fef9c3;
+}
+
+.month4{
+    background:#dcfce7;
+}
+
+.month5{
+    background:#dbeafe;
+}
+
+.month6{
+    background:#ede9fe;
+}
+
+.month7{
+    background:#fce7f3;
+}
+
+.month8{
+    background:#cffafe;
+}
+
+.month9{
+    background:#ecfccb;
+}
+
+.month10{
+    background:#fef3c7;
+}
+
+.month11{
+    background:#e0e7ff;
+}
+
+.month12{
+    background:#ffe4e6;
+}
 
 }
