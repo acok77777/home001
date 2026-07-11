@@ -254,13 +254,25 @@ value="${Number(item.money).toLocaleString()}">
     inputs[1].onchange = saveCurrent;
 
 
-    inputs[2].oninput=function(){
+ inputs[2].oninput=function(){
 
-        saveCurrent();
 
-        calculateTotal();
+    let value = this.value.replace(/,/g,"");
 
-    };
+
+    if(value){
+
+        this.value = Number(value).toLocaleString();
+
+    }
+
+
+    saveCurrent();
+
+    calculateTotal();
+
+
+};
 
 
     inputs[3].oninput = saveCurrent;
@@ -342,7 +354,7 @@ function saveCurrent(){
 
             check:input[1].checked,
 
-            money:Number(input[2].value),
+           money:Number(input[2].value.replace(/,/g,"")),
 
             memo:input[3].value
 
