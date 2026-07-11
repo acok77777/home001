@@ -1,11 +1,17 @@
-```html
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>월별 공과금 관리</title>
+
+<meta name="theme-color" content="#4CAF50">
+
+<link rel="manifest" href="manifest.json">
 
 <link rel="stylesheet" href="style.css">
 
@@ -13,9 +19,11 @@
 
 <body>
 
-<!-- ===== 메인 화면 ===== -->
+<!-- ========================= -->
+<!-- 메인 화면 -->
+<!-- ========================= -->
 
-<div id="home">
+<div id="homePage">
 
     <h1>월별 공과금 관리</h1>
 
@@ -31,60 +39,98 @@
 
     <div id="monthList">
 
-        <button class="month" data-month="1">1월</button>
-        <button class="month" data-month="2">2월</button>
-        <button class="month" data-month="3">3월</button>
-        <button class="month" data-month="4">4월</button>
-        <button class="month" data-month="5">5월</button>
-        <button class="month" data-month="6">6월</button>
-        <button class="month" data-month="7">7월</button>
-        <button class="month" data-month="8">8월</button>
-        <button class="month" data-month="9">9월</button>
-        <button class="month" data-month="10">10월</button>
-        <button class="month" data-month="11">11월</button>
-        <button class="month" data-month="12">12월</button>
-
     </div>
 
 </div>
 
-<!-- ===== 월별 화면 ===== -->
+<!-- ========================= -->
+<!-- 월별 화면 -->
+<!-- ========================= -->
 
-<div id="page" style="display:none;">
+<div id="monthPage" style="display:none;">
 
-    <h2 id="title"></h2>
+    <h2 id="monthTitle"></h2>
+
+    <div class="topButtons">
+
+        <button id="copyBtn">
+            📋 지난달 불러오기
+        </button>
+
+        <button id="addBtn">
+            ➕ 행 추가
+        </button>
+
+    </div>
 
     <table>
 
         <thead>
 
-            <tr>
+        <tr>
 
-                <th>내용</th>
-                <th>체크</th>
-                <th>금액</th>
-                <th>비고</th>
+            <th width="35%">내용</th>
 
-            </tr>
+            <th width="10%">체크</th>
+
+            <th width="20%">금액</th>
+
+            <th width="25%">비고</th>
+
+            <th width="10%">삭제</th>
+
+        </tr>
 
         </thead>
 
-        <tbody id="tbody">
+        <tbody id="tableBody">
 
         </tbody>
 
     </table>
 
-    <br>
+    <div class="totalBox">
 
-    <button id="save">저장하기</button>
+        총합 :
 
-    <button id="back">나가기</button>
+        <span id="totalMoney">
+
+            0원
+
+        </span>
+
+    </div>
+
+    <div class="bottomButtons">
+
+        <button id="saveBtn">
+
+            💾 저장하기
+
+        </button>
+
+        <button id="backBtn">
+
+            ↩ 나가기
+
+        </button>
+
+    </div>
 
 </div>
 
 <script src="script.js"></script>
 
+<script>
+
+if("serviceWorker" in navigator){
+
+navigator.serviceWorker.register("service-worker.js");
+
+}
+
+</script>
+
 </body>
+
 </html>
-```
