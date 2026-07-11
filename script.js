@@ -222,9 +222,10 @@ function createRow(item,index){
 
 
     <td>
-    <input class="money"
-    type="number"
-    value="${item.money}">
+<input class="money"
+type="text"
+inputmode="numeric"
+value="${Number(item.money).toLocaleString()}">
     </td>
 
 
