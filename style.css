@@ -1,129 +1,339 @@
-```css
+/* =========================
+   기본 설정
+========================= */
+
 *{
-    margin:0;
-    padding:0;
     box-sizing:border-box;
 }
 
 body{
-    font-family:"맑은 고딕",sans-serif;
-    background:#f2f2f2;
+
+    margin:0;
     padding:20px;
+
+    font-family:
+    "Noto Sans KR",
+    sans-serif;
+
+    background:#f5f7fb;
+
+    color:#333;
+
 }
 
-h1,h2{
+
+
+/* =========================
+   제목
+========================= */
+
+h1,
+h2{
+
     text-align:center;
+
+    color:#2e7d32;
+
     margin-bottom:20px;
+
 }
+
+
+
+/* =========================
+   년도 선택
+========================= */
 
 .yearBox{
+
     display:flex;
+
     justify-content:center;
+
     align-items:center;
-    gap:15px;
-    margin-bottom:25px;
+
+    gap:20px;
+
+    margin-bottom:20px;
+
 }
+
+
+.yearBox button{
+
+    width:45px;
+
+    height:40px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#4CAF50;
+
+    color:white;
+
+    font-size:18px;
+
+}
+
 
 #year{
-    font-size:30px;
+
+    font-size:24px;
+
     font-weight:bold;
+
 }
 
-button{
-    cursor:pointer;
-    border:none;
-    border-radius:8px;
-    padding:10px 18px;
-    background:#4CAF50;
-    color:white;
-    font-size:16px;
-}
 
-button:hover{
-    background:#388E3C;
-}
+
+/* =========================
+   월 버튼
+========================= */
 
 #monthList{
+
     display:grid;
+
     grid-template-columns:repeat(3,1fr);
-    gap:15px;
-    max-width:700px;
-    margin:auto;
+
+    gap:12px;
+
 }
 
-.month{
-    padding:20px;
-    font-size:20px;
+
+
+.monthBtn{
+
+    padding:18px 5px;
+
+    border:none;
+
+    border-radius:15px;
+
+    background:white;
+
+    box-shadow:0 3px 8px rgba(0,0,0,0.1);
+
+    font-size:17px;
+
+    cursor:pointer;
+
 }
+
+
+.monthBtn:hover{
+
+    background:#e8f5e9;
+
+}
+
+
+
+/* =========================
+   상단 버튼
+========================= */
+
+
+.topButtons,
+.bottomButtons{
+
+    display:flex;
+
+    gap:10px;
+
+    margin:15px 0;
+
+}
+
+
+button{
+
+    cursor:pointer;
+
+}
+
+
+.topButtons button,
+.bottomButtons button{
+
+    flex:1;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#4CAF50;
+
+    color:white;
+
+    font-size:15px;
+
+}
+
+
+
+/* =========================
+   표
+========================= */
 
 table{
+
     width:100%;
+
     border-collapse:collapse;
+
     background:white;
+
+    border-radius:10px;
+
+    overflow:hidden;
+
 }
+
+
 
 th{
-    background:#4CAF50;
+
+    background:#81c784;
+
     color:white;
+
     padding:10px;
+
 }
+
+
 
 td{
-    border:1px solid #ccc;
-    padding:6px;
+
+    border-bottom:1px solid #ddd;
+
+    padding:8px;
+
+    text-align:center;
+
 }
 
-input[type=text]{
+
+
+input{
+
     width:100%;
-    padding:6px;
-}
 
-input[type=checkbox]{
-    transform:scale(1.3);
-}
+    padding:8px;
 
-#save{
-    background:#2196F3;
-}
+    border:1px solid #ccc;
 
-#save:hover{
-    background:#1565C0;
-}
+    border-radius:8px;
 
-#back{
-    background:#f44336;
-}
-
-#back:hover{
-    background:#c62828;
-}
-
-#page{
-    max-width:1000px;
-    margin:auto;
-}
-
-@media(max-width:700px){
-
-    #monthList{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .month{
-        font-size:18px;
-    }
-
-    table{
-        font-size:14px;
-    }
+    font-size:14px;
 
 }
 
-@media(max-width:500px){
 
-    #monthList{
-        grid-template-columns:1fr;
-    }
+
+input[type="checkbox"]{
+
+    width:20px;
+
+    height:20px;
 
 }
-```
+
+
+
+/* 삭제 버튼 */
+
+.deleteBtn{
+
+    background:#ef5350;
+
+    color:white;
+
+    border:none;
+
+    border-radius:8px;
+
+    padding:8px;
+
+}
+
+
+
+/* =========================
+   합계
+========================= */
+
+.totalBox{
+
+    margin-top:20px;
+
+    padding:18px;
+
+    background:white;
+
+    border-radius:15px;
+
+    text-align:center;
+
+    font-size:20px;
+
+    font-weight:bold;
+
+    box-shadow:0 3px 8px rgba(0,0,0,0.1);
+
+}
+
+
+#totalMoney{
+
+    color:#d32f2f;
+
+}
+
+
+
+/* =========================
+   모바일
+========================= */
+
+@media(max-width:600px){
+
+
+body{
+
+    padding:12px;
+
+}
+
+
+#monthList{
+
+    grid-template-columns:repeat(2,1fr);
+
+}
+
+
+th,
+td{
+
+    font-size:13px;
+
+}
+
+
+.topButtons button,
+.bottomButtons button{
+
+    font-size:13px;
+
+    padding:12px 5px;
+
+}
+
+
+}
